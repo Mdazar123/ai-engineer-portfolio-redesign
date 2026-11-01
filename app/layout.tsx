@@ -2,9 +2,7 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
-const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : 'http://localhost:3000'
+const siteUrl = 'https://ai-engineer-portfolio-mdazhar.vercel.app'
 
 export const metadata: Metadata = {
   title: 'Azhar Mohammad — AI Engineer',
