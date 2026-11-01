@@ -2,15 +2,19 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
+const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : 'http://localhost:3000'
+
 export const metadata: Metadata = {
   title: 'Azhar Mohammad — AI Engineer',
   description: 'Portfolio of Azhar Mohammad, an AI Engineer and Python Backend Engineer building LLM-powered applications, agentic workflows, and enterprise automation.',
   generator: 'Next.js',
-  metadataBase: new URL('https://azarmdportfolio.netlify.app'),
+  metadataBase: new URL(siteUrl),
   openGraph: {
     title: 'Azhar Mohammad — AI Engineer',
     description: 'Building intelligent systems that solve real problems.',
-    url: 'https://azarmdportfolio.netlify.app',
+    url: siteUrl,
     siteName: 'Azhar Mohammad',
     type: 'website',
   },
