@@ -29,9 +29,7 @@ pnpm start
 
 ## Contact form
 
-The contact form sends the message from the browser through [FormSubmit](https://formsubmit.co) to azhar.md.dev@gmail.com. No environment variables are required.
-
-The first submission from a new domain needs a one-time activation. FormSubmit emails an **Activate Form** link. After that link is opened, later messages are delivered. **Email me** opens a Gmail compose window as a fallback.
+The contact form sends the message from the browser through [Web3Forms](https://web3forms.com) to azhar.md.dev@gmail.com. No environment variables are required. **Email me** opens a Gmail compose window as a fallback.
 
 ## Deploy
 

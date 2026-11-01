@@ -71,6 +71,7 @@ const aiTools = [
 ]
 
 const inbox = 'azhar.md.dev@gmail.com'
+const web3formsKey = 'd8d65973-d389-4b89-868a-e590a8229f07'
 
 function gmailUrl(subject = '', body = '') {
   const params = new URLSearchParams({ view: 'cm', fs: '1', to: inbox })
@@ -218,33 +219,20 @@ export default function Page() {
       setStatus('sent')
       return
     }
+    data.delete('company')
+    data.set('subject', subject ? `Portfolio: ${subject}` : 'Portfolio message')
+    data.set('message', `${message}\n\n— ${name} <${email}>`)
+    data.append('access_key', web3formsKey)
+    data.append('from_name', 'Azhar Portfolio')
     try {
-      const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(inbox)}`, {
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          message: `${message}\n\n— ${name} <${email}>`,
-          _subject: `Portfolio: ${subject}`,
-          _replyto: email,
-          _template: 'box',
-          _captcha: 'false',
-        }),
+        body: data,
       })
-      const payload = (await response.json().catch(() => null)) as { success?: boolean | string; message?: string } | null
-      const delivered = payload?.success === true || payload?.success === 'true'
-      if (!delivered) {
-        const detail = payload?.message ?? ''
+      const payload = (await response.json().catch(() => null)) as { success?: boolean; message?: string } | null
+      if (!payload?.success) {
         setStatus('error')
-        setFormError(
-          detail.toLowerCase().includes('activation')
-            ? `Check ${inbox} for an email from FormSubmit and click Activate Form, then send this again.`
-            : 'The message could not be delivered. Use Email me to write from Gmail instead.',
-        )
+        setFormError(payload?.message || 'The message could not be delivered. Use Email me to write from Gmail instead.')
         return
       }
       form.reset()
