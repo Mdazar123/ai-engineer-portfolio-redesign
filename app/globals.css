@@ -98,15 +98,11 @@ img { max-width: 100%; }
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
 }
 .brand { display: flex; gap: 12px; align-items: center; }
-.brand span {
-  display: grid;
-  place-items: center;
+.brand img {
   width: 32px;
   height: 32px;
-  border: 1px solid rgba(139, 108, 255, 0.7);
-  border-radius: 9px;
-  font-weight: 700;
-  font-size: 12px;
+  display: block;
+  border-radius: 8px;
 }
 .brand small { font: 10px ui-monospace, monospace; color: var(--muted); letter-spacing: 0.12em; }
 .site-header nav { display: flex; gap: 28px; align-items: center; font-size: 14px; color: var(--muted); }

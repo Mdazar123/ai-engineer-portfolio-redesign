@@ -70,7 +70,7 @@ const aiTools = [
   ['FA', 'FastAPI'],
 ]
 
-const inbox = 'azharmohammad2026@gmail.com'
+const inbox = 'azhar.md.dev@gmail.com'
 
 function gmailUrl(subject = '', body = '') {
   const params = new URLSearchParams({ view: 'cm', fs: '1', to: inbox })
@@ -206,27 +206,48 @@ export default function Page() {
 
   async function sendMessage(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const data = new FormData(event.currentTarget)
+    const form = event.currentTarget
+    const data = new FormData(form)
+    const name = String(data.get('name') ?? '').trim()
+    const email = String(data.get('email') ?? '').trim()
+    const subject = String(data.get('subject') ?? '').trim()
+    const message = String(data.get('message') ?? '').trim()
     setStatus('sending')
     setFormError('')
+    if (String(data.get('company') ?? '').trim()) {
+      setStatus('sent')
+      return
+    }
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(inbox)}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
         body: JSON.stringify({
-          name: data.get('name'),
-          email: data.get('email'),
-          subject: data.get('subject'),
-          message: data.get('message'),
-          company: data.get('company'),
+          name,
+          email,
+          message: `${message}\n\n— ${name} <${email}>`,
+          _subject: `Portfolio: ${subject}`,
+          _replyto: email,
+          _template: 'box',
+          _captcha: 'false',
         }),
       })
-      const payload = await response.json().catch(() => ({}))
-      if (!response.ok) {
+      const payload = (await response.json().catch(() => null)) as { success?: boolean | string; message?: string } | null
+      const delivered = payload?.success === true || payload?.success === 'true'
+      if (!delivered) {
+        const detail = payload?.message ?? ''
         setStatus('error')
-        setFormError(typeof payload.error === 'string' ? payload.error : 'The message could not be delivered.')
+        setFormError(
+          detail.toLowerCase().includes('activation')
+            ? `Check ${inbox} for an email from FormSubmit and click Activate Form, then send this again.`
+            : 'The message could not be delivered. Use Email me to write from Gmail instead.',
+        )
         return
       }
+      form.reset()
       setStatus('sent')
     } catch {
       setStatus('error')
@@ -253,7 +274,7 @@ export default function Page() {
       <div className="ambient ambient-two" />
       <header className="site-header">
         <a href="#top" className="brand" onClick={closeMenu}>
-          <span>AZ</span>
+          <img src="/icon.svg" alt="" width={32} height={32} />
           <small>AI ENGINEER</small>
         </a>
         <button
@@ -507,7 +528,7 @@ export default function Page() {
       </section>
 
       <footer className="site-footer">
-        <a href="#top" className="brand"><span>AZ</span><small>AI ENGINEER</small></a>
+        <a href="#top" className="brand"><img src="/icon.svg" alt="" width={32} height={32} /><small>AI ENGINEER</small></a>
         <p className="mono">DESIGNED &amp; BUILT BY AZHAR MOHAMMAD · 2026</p>
         <div>
           <a href="https://github.com/Mdazar123" target="_blank" rel="noreferrer">GitHub<span className="sr-only"> (opens in a new tab)</span></a>

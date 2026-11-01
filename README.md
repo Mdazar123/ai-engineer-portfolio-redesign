@@ -29,7 +29,7 @@ pnpm start
 
 ## Contact form
 
-The contact form posts to `/api/contact`, which forwards the message through [FormSubmit](https://formsubmit.co) to azharmohammad2026@gmail.com. No environment variables are required.
+The contact form sends the message from the browser through [FormSubmit](https://formsubmit.co) to azhar.md.dev@gmail.com. No environment variables are required.
 
 The first submission from a new domain needs a one-time activation. FormSubmit emails an **Activate Form** link. After that link is opened, later messages are delivered. **Email me** opens a Gmail compose window as a fallback.
 

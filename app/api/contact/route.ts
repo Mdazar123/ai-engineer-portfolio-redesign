@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-const TO = 'azharmohammad2026@gmail.com'
+const TO = 'azhar.md.dev@gmail.com'
 const WINDOW_MS = 10 * 60 * 1000
 const LIMIT = 5
 const recentHits = new Map<string, number[]>()
